@@ -156,7 +156,8 @@ export const checkAuth = async (req, res)=> {
         if(!user){
             return res.status(400).json({status: false, message: 'User not found'})
         }
-        res.status(200).json({success: true, message: 'Password reset successfully'})
+
+        return res.status(200).json({success: true, user})
 
     } catch (error) {
         console.log(error);
