@@ -7,6 +7,25 @@ import {Toaster} from 'react-hot-toast'
 import { useAuthStore } from "./store/authStore"
 import { useEffect } from "react"
 import PropTypes from "prop-types"
+import DashboardPage from "./pages/DashboardPage"
+
+const ProtectedRoute = ({children}) => {
+  const {isAuthenticated, user} = useAuthStore()
+
+  if(!isAuthenticated){
+    return <Navigate to='/login' replace/>
+  }
+
+  if(!user.isVerified){
+    return <Navigate to='/verify-email' replace/>
+  }
+
+  return children
+}
+
+ProtectedRoute.propTypes = {
+  children: PropTypes.any.isRequired
+}
 
 const RedirectAuthenticatedUser = ({children}) => {
   const {isAuthenticated, user} = useAuthStore()
@@ -40,7 +59,14 @@ function App() {
       <FloatingShape color='bg-lime-500' size='w-48 h-48' top='40%' left='-10%' delay={3}/>
 
       <Routes>
-        <Route path="/" element={'Home'}/>
+        <Route 
+          path="/" 
+          element={
+            <ProtectedRoute>
+              <DashboardPage/>
+            </ProtectedRoute>
+          }
+        />
         <Route 
           path="/signup" 
           element={
