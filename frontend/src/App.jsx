@@ -8,6 +8,7 @@ import { useAuthStore } from "./store/authStore"
 import { useEffect } from "react"
 import PropTypes from "prop-types"
 import DashboardPage from "./pages/DashboardPage"
+import LoadingSpinner from "./components/LoadingSpinner"
 
 const ProtectedRoute = ({children}) => {
   const {isAuthenticated, user} = useAuthStore()
@@ -50,6 +51,10 @@ function App() {
 
   console.log('isAuthenticated',isAuthenticated);
   console.log('user',user);
+
+  if(isCheckingAuth){
+    return <LoadingSpinner/>
+  }
   
 
   return (
