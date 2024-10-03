@@ -9,6 +9,8 @@ import { useEffect } from "react"
 import PropTypes from "prop-types"
 import DashboardPage from "./pages/DashboardPage"
 import LoadingSpinner from "./components/LoadingSpinner"
+import ForgotPasswordPage from "./pages/ForgotPasswordPage"
+import ResetPasswordPage from "./pages/ResetPasswordPage"
 
 const ProtectedRoute = ({children}) => {
   const {isAuthenticated, user} = useAuthStore()
@@ -89,6 +91,22 @@ function App() {
           }
         />
         <Route path="/verify-email" element={<EmailVerificationPage/>}/>
+        <Route 
+          path="/forgot-password" 
+          element={
+          <RedirectAuthenticatedUser>
+            <ForgotPasswordPage/>
+          </RedirectAuthenticatedUser>
+          }
+        />
+        <Route 
+          path="/reset-password/:token" 
+          element={
+          <RedirectAuthenticatedUser>
+            <ResetPasswordPage/>
+          </RedirectAuthenticatedUser>
+          }
+        />
       </Routes>
       <Toaster/>
     </div>
